@@ -1,2 +1,2 @@
-# texte
+# Texte
 Text Editor
