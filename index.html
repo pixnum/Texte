@@ -1,7 +1,8 @@
+<!-- Author: Manik Roy -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Texte - Text Editor</title>
 <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/25/25423.png" type="image/png"/>
@@ -64,10 +65,41 @@ mark.highlight{background:yellow;color:black;border-radius:3px;}
     </select>
 
     <select id="language" onchange="setLanguage(this.value)">
+      <!-- ✅ 22 Indian official languages -->
       <option value="en">English</option>
-      <!-- Languages truncated for brevity -->
-      <option value="sw">Swahili</option><option value="tl">Filipino</option>
-      <option value="bn-BD">Bengali (Bangladesh)</option>
+      <option value="hi">Hindi</option><option value="bn">Bengali</option>
+      <option value="te">Telugu</option><option value="mr">Marathi</option>
+      <option value="ta">Tamil</option><option value="ur">Urdu</option>
+      <option value="gu">Gujarati</option><option value="kn">Kannada</option>
+      <option value="ml">Malayalam</option><option value="or">Odia</option>
+      <option value="pa">Punjabi</option><option value="as">Assamese</option>
+      <option value="ma">Maithili</option><option value="sd">Sindhi</option>
+      <option value="ne">Nepali</option><option value="si">Sinhala</option>
+      <option value="bo">Bodo</option><option value="ka">Konkani</option>
+      <option value="sa">Sanskrit</option><option value="ks">Kashmiri</option>
+      <!-- ✅ 22 world languages (unique, alphabetically) -->
+      <option value="ar-eg">Arabic (Egyptian)</option>
+      <option value="my">Burmese</option>
+      <option value="en-uk">English (UK)</option>
+      <option value="fr">French</option>
+      <option value="de">German</option>
+      <option value="ha">Hausa</option>
+      <option value="it">Italian</option>
+      <option value="ja">Japanese</option>
+      <option value="jv">Javanese</option>
+      <option value="ko">Korean</option>
+      <option value="ms">Malay</option>
+      <option value="zh">Mandarin Chinese</option>
+      <option value="fa">Persian (Farsi)</option>
+      <option value="pt">Portuguese</option>
+      <option value="ru">Russian</option>
+      <option value="es">Spanish</option>
+      <option value="sw">Swahili</option>
+      <option value="th">Thai</option>
+      <option value="tr">Turkish</option>
+      <option value="vi">Vietnamese</option>
+      <option value="wuu">Wu Chinese</option>
+      <option value="yo">Yoruba</option>
     </select>
 
     <button onclick="toggleDarkMode()">🌓 Dark Mode</button>
@@ -90,10 +122,12 @@ mark.highlight{background:yellow;color:black;border-radius:3px;}
 <footer>© Texte 2025</footer>
 
 <script>
-function format(cmd,val=null){document.execCommand(cmd,false,val);}
+/* Basic Formatting */
+function format(c,v=null){document.execCommand(c,false,v);}
 function toggleDarkMode(){document.body.classList.toggle('dark');}
-function setLanguage(l){document.getElementById('editor').lang=l;}
+function setLanguage(v){document.getElementById('editor').lang=v;}
 
+/* Font Size (pixel) */
 function setFontSize(size){
  const sel=window.getSelection();
  if(!sel.rangeCount) return;
@@ -105,22 +139,22 @@ function setFontSize(size){
  range.insertNode(span);
 }
 
-/* Insert Image */
+/* Image Upload */
 function insertImage(){
  const input=document.createElement('input');
  input.type='file'; input.accept='image/*';
  input.onchange=e=>{
    const file=e.target.files[0];
    if(!file) return;
-   const reader=new FileReader();
-   reader.onload=ev=>{
+   const rd=new FileReader();
+   rd.onload=evt=>{
      const img=document.createElement('img');
-     img.src=ev.target.result;
+     img.src=evt.target.result;
      img.classList.add('resizable');
-     const range=window.getSelection().getRangeAt(0);
-     range.insertNode(img); range.collapse(false);
+     const r=window.getSelection().getRangeAt(0);
+     r.insertNode(img); r.collapse(false);
    };
-   reader.readAsDataURL(file);
+   rd.readAsDataURL(file);
  };
  input.click();
 }
@@ -131,58 +165,57 @@ editor.addEventListener('dragover',e=>{e.preventDefault();editor.style.border="2
 editor.addEventListener('dragleave',e=>{e.preventDefault();editor.style.border="none";});
 editor.addEventListener('drop',e=>{
  e.preventDefault();editor.style.border="none";
- [...e.dataTransfer.files].forEach(f=>{
-   if(f.type.startsWith('image/')){
-     const rd=new FileReader();
-     rd.onload=ev=>{
-       const img=document.createElement('img');
-       img.src=ev.target.result; img.classList.add('resizable');
-       const r=window.getSelection().getRangeAt(0); r.insertNode(img);
-     };
-     rd.readAsDataURL(f);
-   }
- });
+ [...e.dataTransfer.files].forEach(file=>{
+  if(file.type.startsWith('image/')){
+   const rd=new FileReader();
+   rd.onload=evt=>{
+     const img=document.createElement('img');
+     img.src=evt.target.result;
+     img.classList.add('resizable');
+     const r=window.getSelection().getRangeAt(0);
+     r.insertNode(img);
+   };
+   rd.readAsDataURL(file);
+ }});
 });
 
+/* Save TXT/DOCX/PDF */
 function saveFile(t){
  if(t==='txt'){
-   let b=new Blob([editor.innerText],{type:'text/plain'});
-   let a=document.createElement('a');
-   a.href=URL.createObjectURL(b); a.download='document.txt'; a.click();
- } else{
-   let html="<html><body>"+editor.innerHTML+"</body></html>";
-   let b=new Blob([html],{type:'application/msword'});
-   let a=document.createElement('a');
-   a.href=URL.createObjectURL(b); a.download='document.docx'; a.click();
+  let b=new Blob([editor.innerText],{type:'text/plain'});
+  let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='document.txt'; a.click();
+ }else{
+  let html="<html><body>"+editor.innerHTML+"</body></html>";
+  let b=new Blob([html],{type:'application/msword'});
+  let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='document.docx'; a.click();
  }
 }
-
 function savePDFPrint(){
  const w=window.open('');
  w.document.write("<html><body>"+editor.innerHTML+"</body></html>");
  w.document.close(); w.focus(); w.print(); w.close();
 }
 
+/* Basic Tools */
 function undoEditor(){document.execCommand('undo');}
 function redoEditor(){document.execCommand('redo');}
 function clearEditor(){if(confirm("Clear all content?")) editor.innerHTML='';}
-function copyToClipboard(){navigator.clipboard.writeText(editor.innerText).then(()=>alert("Copied"));}
+function copyToClipboard(){navigator.clipboard.writeText(editor.innerText).then(()=>alert("Copied to clipboard"));}
 
+/* Select All */
 function selectAllEditor(){
- const r=document.createRange();
- r.selectNodeContents(editor);
- const s=window.getSelection();
- s.removeAllRanges(); s.addRange(r);
+ const r=document.createRange(); r.selectNodeContents(editor);
+ const s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
 }
 
 /* Find & Replace */
 function findReplaceEditor(){
- const f=prompt("Find:"); if(!f) return;
+ const find=prompt("Find:"); if(!find) return;
  const rep=prompt("Replace with:"); if(rep===null) return;
  editor.innerHTML=editor.innerHTML.replace(/<mark class="highlight">(.*?)<\/mark>/g,'$1');
- const rx=new RegExp(f,'gi');
+ const rx=new RegExp(find,'gi');
  editor.innerHTML=editor.innerHTML.replace(rx,m=>`<mark class="highlight">${rep}</mark>`);
- alert(`Replaced all "${f}" with "${rep}"`);
+ alert(`Replaced all "${find}" with "${rep}"`);
 }
 
 /* Readability + Word Count */
@@ -190,17 +223,13 @@ function checkReadability(){
  const text=editor.innerText.trim();
  const result=document.getElementById('readabilityResult');
  if(!text){ result.innerText=""; return; }
-
- // Word count (letters only)
  const words=text.split(/\s+/).filter(w=>/[a-z]/i.test(w));
  const sentences=text.split(/[.!?]+/).filter(Boolean).length||1;
- const wordCount=words.length;
- const syllables=words.reduce((s,w)=>s+countSyllables(w),0);
-
- const ASL=wordCount/sentences;
- const ASW=syllables/wordCount;
+ const syll=words.reduce((s,w)=>s+countSyllables(w),0);
+ const wc=words.length;
+ const ASL=wc/sentences;
+ const ASW=syll/wc;
  const score=206.835-(1.015*ASL)-(84.6*ASW);
-
  let desc="";
  if(score>=90)desc="Very Easy";
  else if(score>=80)desc="Easy";
@@ -209,16 +238,15 @@ function checkReadability(){
  else if(score>=50)desc="Fairly Difficult";
  else if(score>=30)desc="Difficult";
  else desc="Very Difficult";
-
- result.innerText = `Readability: ${score.toFixed(1)} – ${desc} | Words: ${wordCount}`;
+ result.innerText = `Readability: ${score.toFixed(1)} – ${desc} | Words: ${wc}`;
 }
 
 /* Syllable Counter */
-function countSyllables(w){
- w=w.toLowerCase();
- if(w.length<=3) return 1;
- w=w.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,'').replace(/^y/,'');
- const m=w.match(/[aeiouy]{1,2}/g);
+function countSyllables(word){
+ word=word.toLowerCase();
+ if(word.length<=3) return 1;
+ word=word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,'').replace(/^y/,'');
+ const m=word.match(/[aeiouy]{1,2}/g);
  return m?m.length:1;
 }
 </script>
