@@ -66,6 +66,8 @@ mark.highlight{background:yellow;color:black;border-radius:3px;}
     <button onclick="format('justifyFull')">Justify</button>
     <button onclick="format('insertUnorderedList')">• List</button>
     <button onclick="format('insertOrderedList')">1. List</button>
+
+    <!-- Font Size -->
     <select onchange="setFontSize(this.value)">
       <option value="">Font Size</option>
       <option value="10px">10px</option>
@@ -76,130 +78,244 @@ mark.highlight{background:yellow;color:black;border-radius:3px;}
       <option value="32px">32px</option>
       <option value="48px">48px</option>
     </select>
-    <select id="language" onchange="setLanguage(this.value)">
+
+    <!-- Font Family -->
+    <select onchange="setFont(this.value)">
+      <option value="">Select Font</option>
+      <option value="Arial">Arial</option>
+      <option value="Calibri">Calibri</option>
+      <option value="Cambria">Cambria</option>
+      <option value="Candara">Candara</option>
+      <option value="Comic Sans MS">Comic Sans MS</option>
+      <option value="Consolas">Consolas</option>
+      <option value="Constantia">Constantia</option>
+      <option value="Corbel">Corbel</option>
+      <option value="Courier New">Courier New</option>
+      <option value="Ebrima">Ebrima</option>
+      <option value="Franklin Gothic">Franklin Gothic</option>
+      <option value="Gabriola">Gabriola</option>
+      <option value="Gadugi">Gadugi</option>
+      <option value="Georgia">Georgia</option>
+      <option value="Impact">Impact</option>
+      <option value="Ink Free">Ink Free</option>
+      <option value="Lucida Console">Lucida Console</option>
+      <option value="Malgun Gothic">Malgun Gothic</option>
+      <option value="Marlett">Marlett</option>
+      <option value="Sylfaen">Sylfaen</option>
+      <option value="Tahoma">Tahoma</option>
+      <option value="Times New Roman">Times New Roman</option>
+      <option value="Trebuchet MS">Trebuchet MS</option>
+      <option value="Verdana">Verdana</option>
+      <option value="Webdings">Webdings</option>
+      <option value="Wingdings">Wingdings</option>
+      <option value="Abril Fatface">Abril Fatface</option>
+      <option value="Aileron">Aileron</option>
+      <option value="Akzidenz Grotesk">Akzidenz Grotesk</option>
+      <option value="Arvo">Arvo</option>
+      <option value="Avenir">Avenir</option>
+      <option value="Baskerville">Baskerville</option>
+      <option value="Bodoni">Bodoni</option>
+      <option value="Crimson Text">Crimson Text</option>
+      <option value="Cormorant">Cormorant</option>
+      <option value="Didot">Didot</option>
+      <option value="DM Sans">DM Sans</option>
+      <option value="Futura">Futura</option>
+      <option value="Garamond">Garamond</option>
+      <option value="Gilroy">Gilroy</option>
+      <option value="Helvetica">Helvetica</option>
+      <option value="Inter">Inter</option>
+      <option value="Josefin Sans">Josefin Sans</option>
+      <option value="Libre Baskerville">Libre Baskerville</option>
+      <option value="Lato">Lato</option>
+      <option value="Lora">Lora</option>
+      <option value="Manrope">Manrope</option>
+      <option value="Montserrat">Montserrat</option>
+      <option value="Neuton">Neuton</option>
+      <option value="Nunito">Nunito</option>
+      <option value="Open Sans">Open Sans</option>
+      <option value="Object Sans">Object Sans</option>
+      <option value="Playfair Display">Playfair Display</option>
+      <option value="Proxima Nova">Proxima Nova</option>
+      <option value="PT Serif">PT Serif</option>
+      <option value="Poppins">Poppins</option>
+      <option value="Public Sans">Public Sans</option>
+      <option value="Ranade">Ranade</option>
+      <option value="Raleway">Raleway</option>
+      <option value="Roboto">Roboto</option>
+      <option value="Rubik">Rubik</option>
+      <option value="Soria">Soria</option>
+      <option value="Source Sans Pro">Source Sans Pro</option>
+      <option value="Sreda">Sreda</option>
+      <option value="Ubuntu">Ubuntu</option>
+      <option value="Work Sans">Work Sans</option>
+    </select>
+    <!-- Language Selector -->
+    <select id="languageSelect" onchange="setLanguage(this.value)">
       <option value="en">English</option>
-      <option value="hi">Hindi</option><option value="bn">Bengali</option><option value="te">Telugu</option>
-      <option value="mr">Marathi</option><option value="ta">Tamil</option><option value="ur">Urdu</option>
-      <option value="gu">Gujarati</option><option value="kn">Kannada</option><option value="ml">Malayalam</option>
-      <option value="or">Odia</option><option value="pa">Punjabi</option><option value="as">Assamese</option>
-      <option value="ma">Maithili</option><option value="sd">Sindhi</option><option value="ne">Nepali</option>
-      <option value="si">Sinhala</option><option value="bo">Bodo</option><option value="ka">Konkani</option>
-      <option value="sa">Sanskrit</option><option value="ks">Kashmiri</option>
-      <option value="ar-eg">Arabic (Egyptian)</option><option value="my">Burmese</option><option value="en-uk">English (UK)</option>
-      <option value="fr">French</option><option value="de">German</option><option value="ha">Hausa</option>
-      <option value="it">Italian</option><option value="ja">Japanese</option><option value="jv">Javanese</option>
-      <option value="ko">Korean</option><option value="ms">Malay</option><option value="zh">Mandarin Chinese</option>
-      <option value="fa">Persian (Farsi)</option><option value="pt">Portuguese</option><option value="ru">Russian</option>
-      <option value="es">Spanish</option><option value="sw">Swahili</option><option value="th">Thai</option>
-      <option value="tr">Turkish</option><option value="vi">Vietnamese</option><option value="wuu">Wu Chinese</option><option value="yo">Yoruba</option>
+      <!-- 22 Indian Official Languages -->
+      <option value="hi">Hindi</option>
+      <option value="bn">Bengali</option>
+      <option value="te">Telugu</option>
+      <option value="mr">Marathi</option>
+      <option value="ta">Tamil</option>
+      <option value="ur">Urdu</option>
+      <option value="gu">Gujarati</option>
+      <option value="kn">Kannada</option>
+      <option value="ml">Malayalam</option>
+      <option value="or">Odia</option>
+      <option value="pa">Punjabi</option>
+      <option value="as">Assamese</option>
+      <option value="ma">Maithili</option>
+      <option value="bh">Bhojpuri</option>
+      <option value="sd">Sindhi</option>
+      <option value="kok">Konkani</option>
+      <option value="ks">Kashmiri</option>
+      <option value="ne">Nepali</option>
+      <option value="sat">Santali</option>
+      <option value="dog">Dogri</option>
+      <option value="bodo">Bodo</option>
+      <option value="sy">Sanskrit</option>
+
+      <!-- 22 World Popular Languages -->
+      <option value="es">Spanish</option>
+      <option value="zh">Chinese</option>
+      <option value="fr">French</option>
+      <option value="de">German</option>
+      <option value="ja">Japanese</option>
+      <option value="ru">Russian</option>
+      <option value="pt">Portuguese</option>
+      <option value="ar">Arabic</option>
+      <option value="it">Italian</option>
+      <option value="ko">Korean</option>
+      <option value="vi">Vietnamese</option>
+      <option value="id">Indonesian</option>
+      <option value="tr">Turkish</option>
+      <option value="pl">Polish</option>
+      <option value="uk">Ukrainian</option>
+      <option value="ro">Romanian</option>
+      <option value="hu">Hungarian</option>
+      <option value="fa">Persian</option>
+      <option value="he">Hebrew</option>
+      <option value="sv">Swedish</option>
+      <option value="nl">Dutch</option>
+      <option value="th">Thai</option>
     </select>
 
-    <button onclick="toggleDarkMode()">🌓 Dark Mode</button>
-    <button onclick="saveFile('txt')">Save TXT</button>
-    <button onclick="savePDFPrint()">Save PDF</button>
-    <button onclick="saveFile('docx')">Save DOCX</button>
-    <button onclick="insertImage()">Insert Image</button>
-    <button onclick="clearEditor()">Clear</button>
-    <button onclick="undoEditor()">Undo</button>
-    <button onclick="redoEditor()">Redo</button>
-    <button onclick="copyToClipboard()">Copy</button>
-    <button onclick="selectAllEditor()">Select All</button>
-    <button onclick="findReplaceEditor()">Find & Replace</button>
-    <button onclick="checkReadability()">Check Readability</button>
-    <button onclick="insertTable()">Insert Table</button>
-    <button onclick="format('superscript')">Sup</button>
-    <button onclick="format('subscript')">Sub</button>
     <button onclick="textColor()">Text Color</button>
     <button onclick="highlightColor()">Highlight</button>
-    <button onclick="toggleFullscreen()">Full-Screen</button>
-    <button onclick="toggleToolbar()">Hide/Show Toolbar</button>
+    <button onclick="insertImage()">Insert Image</button>
+    <button onclick="insertTable()">Insert Table</button>
+    <button onclick="undoEditor()">Undo</button>
+    <button onclick="redoEditor()">Redo</button>
+    <button onclick="clearEditor()">Clear</button>
+    <button onclick="selectAllEditor()">Select All</button>
+    <button onclick="findReplaceEditor()">Find/Replace</button>
+    <button onclick="copyToClipboard()">Copy</button>
+    <button onclick="saveFile('txt')">Save TXT</button>
+    <button onclick="saveFile('docx')">Save DOCX</button>
+    <button onclick="savePDFPrint()">Save PDF</button>
+    <button onclick="openFile()">Open</button>
+    <button onclick="toggleDarkMode()">Dark/Light</button>
+    <button onclick="toggleFullscreen()">Fullscreen</button>
+    <button onclick="toggleToolbar()">Toggle Toolbar</button>
+    <button onclick="checkReadability()">Readability</button>
+    <button onclick="showWordStats()">Stats</button>
     <button onclick="generateSummary()">Summary</button>
-    <button onclick="showWordStats()">Word Stats</button>
     <select onchange="changeTheme(this.value)">
-      <option value="">Theme</option>
-      <option value="light">Light</option>
+      <option value="default">Theme</option>
       <option value="sepia">Sepia</option>
       <option value="ocean">Ocean</option>
       <option value="classic">Classic</option>
     </select>
   </div>
-  <div id="editor" contenteditable="true" spellcheck="true"></div>
-  <div id="readabilityResult" style="margin-top:10px;"></div>
+
+  <div id="editor" contenteditable="true" spellcheck="true" lang="en"></div>
+  <div id="readabilityResult" style="margin-top:10px;font-size:14px;color:#555;"></div>
 </div>
-<footer>© Manik Roy 2025</footer>
+
+<footer>© Texte 2025</footer>
 
 <script>
-// 🔹 Basic execCommand formatting
+// Formatting
 function format(cmd,val=null){ document.execCommand(cmd,false,val); }
 function setFontSize(size){
-  const sel=window.getSelection();
-  if(!sel.rangeCount) return;
-  const r=sel.getRangeAt(0);
-  if(r.collapsed) return;
-  const span=document.createElement('span');
-  span.style.fontSize=size;
-  span.appendChild(r.extractContents());
-  r.insertNode(span);
+  const sel=window.getSelection(); if(!sel.rangeCount) return;
+  const r=sel.getRangeAt(0); if(r.collapsed) return;
+  const span=document.createElement('span'); span.style.fontSize=size;
+  span.appendChild(r.extractContents()); r.insertNode(span);
 }
-function setLanguage(v){ document.getElementById('editor').lang=v; }
-
-/* 🔹 Dark Mode (fixed) */
-function toggleDarkMode(){
-  // reset custom theme bg
-  document.documentElement.style.setProperty("--bg", "#f0f0f3");
-  // toggle class
-  document.body.classList.toggle("dark");
+function setFont(font){
+  const sel=window.getSelection(); if(!sel.rangeCount) return;
+  const r=sel.getRangeAt(0); if(r.collapsed) return;
+  const span=document.createElement('span'); span.style.fontFamily=font;
+  span.appendChild(r.extractContents()); r.insertNode(span);
 }
 
-/* 🔹 Theme Selector (dark removed) */
+// Language selector
+function setLanguage(lang){ document.getElementById("editor").setAttribute("lang",lang); }
+
+// Dark mode
+function toggleDarkMode(){ document.body.classList.toggle("dark"); }
+
+// Theme selector
 function changeTheme(val){
-  document.body.classList.remove("dark");
   const root=document.documentElement;
-  if(val==="sepia")     root.style.setProperty("--bg","#f5e8d1");
-  else if(val==="ocean")root.style.setProperty("--bg","#d8eef8");
-  else if(val==="classic")root.style.setProperty("--bg","#ece8e0");
-  else                   root.style.setProperty("--bg","#f0f0f3");
-  editor.style.background=root.style.getPropertyValue("--bg");
+  if(val==="sepia") root.style.setProperty("--bg","#f5e8d1");
+  else if(val==="ocean") root.style.setProperty("--bg","#d8eef8");
+  else if(val==="classic") root.style.setProperty("--bg","#ece8e0");
+  else root.style.setProperty("--bg","#f0f0f3");
+  document.getElementById("editor").style.background=root.style.getPropertyValue("--bg");
 }
 
-/* 🔹 Save / Print / Clipboard */
+// Open file
+function openFile(){
+  const input=document.createElement('input'); input.type='file'; input.accept='.txt,.html,.doc,.docx';
+  input.onchange=e=>{
+    const file=e.target.files[0]; if(!file) return;
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      const ext=file.name.split('.').pop().toLowerCase();
+      if(ext==='txt') editor.innerText=ev.target.result;
+      else editor.innerHTML=ev.target.result;
+    };
+    reader.readAsText(file);
+  }; input.click();
+}
+
+// Save / Print / Copy
 function saveFile(type){
- const ed=document.getElementById('editor');
- if(type==='txt'){
-   let b=new Blob([ed.innerText],{type:'text/plain'});
-   let a=document.createElement('a');a.href=URL.createObjectURL(b); a.download="document.txt"; a.click();
- } else {
-   let html="<html><body>"+ed.innerHTML+"</body></html>";
-   let b=new Blob([html],{type:'application/msword'});
-   let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download="document.docx"; a.click();
- }
+  const ed=document.getElementById('editor');
+  if(type==='txt'){
+    let b=new Blob([ed.innerText],{type:'text/plain'});
+    let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download="document.txt"; a.click();
+  } else {
+    let html="<html><body>"+ed.innerHTML+"</body></html>";
+    let b=new Blob([html],{type:'application/msword'});
+    let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download="document.docx"; a.click();
+  }
 }
 function savePDFPrint(){
- let w=window.open('','_blank');w.document.write("<html><body>"+editor.innerHTML+"</body></html>");w.document.close();w.focus();w.print();w.close();
+  let w=window.open('','_blank'); w.document.write("<html><body>"+editor.innerHTML+"</body></html>");
+  w.document.close(); w.focus(); w.print(); w.close();
 }
-function copyToClipboard(){navigator.clipboard.writeText(editor.innerText).then(()=>alert("Copied"));}
+function copyToClipboard(){ navigator.clipboard.writeText(editor.innerText).then(()=>alert("Copied")); }
 
-/* 🔹 Insert Image / Tables / Drop Images */
+// Insert Image / Table
 function insertImage(){
- const input=document.createElement('input');
- input.type='file';input.accept='image/*';
- input.onchange=e=>{
- const f=e.target.files[0];
- if(!f) return;
- const r=new FileReader();
- r.onload=ev=>{
-  const img=document.createElement('img');
-  img.src=ev.target.result;img.classList.add("resizable");
-  const range=window.getSelection().getRangeAt(0);range.insertNode(img);
- };
- r.readAsDataURL(f);
- };
- input.click();
+  const input=document.createElement('input'); input.type='file'; input.accept='image/*';
+  input.onchange=e=>{
+    const f=e.target.files[0]; if(!f) return;
+    const r=new FileReader();
+    r.onload=ev=>{
+      const img=document.createElement('img'); img.src=ev.target.result; img.classList.add("resizable");
+      const range=window.getSelection().getRangeAt(0); range.insertNode(img);
+    }; r.readAsDataURL(f);
+  }; input.click();
 }
 function insertTable(){
-  const t=document.createElement("table");t.border="1";t.style.width="100%";
+  const t=document.createElement("table"); t.border="1"; t.style.width="100%";
   for(let i=0;i<2;i++){ let row=t.insertRow(); for(let j=0;j<2;j++) row.insertCell().innerText=""; }
-  let r=window.getSelection().getRangeAt(0);r.insertNode(t);
+  const r=window.getSelection().getRangeAt(0); r.insertNode(t);
 }
 editor.addEventListener("dragover",e=>{e.preventDefault();});
 editor.addEventListener("drop",e=>{
@@ -209,89 +325,82 @@ editor.addEventListener("drop",e=>{
     const rd=new FileReader();
     rd.onload=ev=>{
        const img=document.createElement("img");
-       img.src=ev.target.result;img.classList.add("resizable");
-       const r=window.getSelection().getRangeAt(0);r.insertNode(img);
+       img.src=ev.target.result; img.classList.add("resizable");
+       const r=window.getSelection().getRangeAt(0); r.insertNode(img);
     };
     rd.readAsDataURL(f);
- }});
-});
+ }});});
 
-/* 🔹 Misc Utilities  */
+// Undo / Redo / Clear / Select All / Find Replace
 function undoEditor(){document.execCommand('undo');}
 function redoEditor(){document.execCommand('redo');}
 function clearEditor(){if(confirm("Clear all content?")) editor.innerHTML='';}
-function selectAllEditor(){let r=document.createRange();r.selectNodeContents(editor);let s=window.getSelection();s.removeAllRanges();s.addRange(r);}
-
-/* 🔹 Find / Replace  */
+function selectAllEditor(){let r=document.createRange(); r.selectNodeContents(editor); let s=window.getSelection(); s.removeAllRanges(); s.addRange(r);}
 function findReplaceEditor(){
- const f=prompt("Find:");if(!f) return;
- const rep=prompt("Replace with:");if(rep===null) return;
- editor.innerHTML=editor.innerHTML.replace(/<mark class="highlight">(.*?)<\/mark>/g,'$1');
- const rg=new RegExp(f,'gi');
- editor.innerHTML=editor.innerHTML.replace(rg,m=>`<mark class="highlight">${rep}</mark>`);
- alert(`Replaced "${f}"`);
+  const f=prompt("Find:"); if(!f) return;
+  const rep=prompt("Replace with:"); if(rep===null) return;
+  editor.innerHTML=editor.innerHTML.replace(/<mark class="highlight">(.*?)<\/mark>/g,'$1');
+  const rg=new RegExp(f,'gi'); editor.innerHTML=editor.innerHTML.replace(rg,m=>`<mark class="highlight">${rep}</mark>`);
+  alert(`Replaced "${f}"`);
 }
 
-/* 🔹 Readability + Words */
+// Colors
+function textColor(){ const c=prompt("Enter text color (#hex or name):"); if(c) document.execCommand("foreColor",false,c);}
+function highlightColor(){ const c=prompt("Enter highlight color:");if(c) document.execCommand("hiliteColor",false,c);}
+
+// Fullscreen / Toolbar toggle
+function toggleFullscreen(){ document.querySelector(".editor-container").classList.toggle("fullscreen"); }
+function toggleToolbar(){ const tb=document.getElementById("toolbar"); tb.style.display=(tb.style.display==="none")?"flex":"flex"; }
+
+// Autosave (LocalStorage)
+setInterval(()=> localStorage.setItem("editorContent",editor.innerHTML),3000);
+window.onload=()=>{ const data=localStorage.getItem("editorContent"); if(data) editor.innerHTML=data; };
+
+// Readability & Word count
 function checkReadability(){
- const text=editor.innerText.trim();
- if(!text){document.getElementById("readabilityResult").innerText="";return;}
- const words=text.split(/\s+/).filter(w=>/[a-z]/i.test(w));
- const sentences=text.split(/[.!?]+/).filter(Boolean).length||1;
- const wc=words.length;
- const syll=words.reduce((s,w)=>s+countSyllables(w),0);
- const ASL=wc/sentences;
- const ASW=syll/wc;
- const score=206.835-(1.015*ASL)-(84.6*ASW);
- let desc=""; if(score>=90)desc="Very Easy"; else if(score>=80)desc="Easy"; else if(score>=70)desc="Fairly Easy";else if(score>=60)desc="Standard";else if(score>=50)desc="Fairly Difficult";else if(score>=30)desc="Difficult";else desc="Very Difficult";
- document.getElementById("readabilityResult").innerText=`Readability: ${score.toFixed(1)} – ${desc} | Words: ${wc}`;
+  const text=editor.innerText.trim();
+  if(!text){document.getElementById("readabilityResult").innerText=""; return;}
+  const words=text.split(/\s+/).filter(w=>/[a-z]/i.test(w));
+  const sentences=text.split(/[.!?]+/).filter(Boolean).length||1;
+  const wc=words.length;
+  const syll=words.reduce((s,w)=>s+countSyllables(w),0);
+  const ASL=wc/sentences;
+  const ASW=syll/wc;
+  const score=206.835-(1.015*ASL)-(84.6*ASW);
+  let desc="";
+  if(score>=90) desc="Very Easy";
+  else if(score>=80) desc="Easy";
+  else if(score>=70) desc="Fairly Easy";
+  else if(score>=60) desc="Standard";
+  else if(score>=50) desc="Fairly Difficult";
+  else if(score>=30) desc="Difficult";
+  else desc="Very Difficult";
+  document.getElementById("readabilityResult").innerText=`Readability: ${score.toFixed(1)} – ${desc} | Words: ${wc}`;
 }
 function countSyllables(w){
-  w=w.toLowerCase();
-  if(w.length<=3) return 1;
+  w=w.toLowerCase(); if(w.length<=3) return 1;
   w=w.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,'').replace(/^y/,'');
-  const m=w.match(/[aeiouy]{1,2}/g);return m?m.length:1;
+  const m=w.match(/[aeiouy]{1,2}/g); return m?m.length:1;
 }
 
-/* 🔹 Summary */
+// Summary
 function generateSummary(){
- const p=editor.innerText.trim().split(/\n+/);
- const s=p.map(pa=>pa.split(/[.!?]/)[0]).join(". ")+"...";
- alert("Summary:\n\n"+s);
+  const p=editor.innerText.trim().split(/\n+/);
+  const s=p.map(pa=>pa.split(/[.!?]/)[0]).join(". ")+"...";
+  alert("Summary:\n\n"+s);
 }
 
-/* 🔹 Word Stats + reading time */
+// Word Stats & Reading time
 function showWordStats(){
- const clean=editor.innerText.toLowerCase().replace(/[^a-z\s]/g,'');
- const w=clean.split(/\s+/).filter(Boolean);
- const freq={}; w.forEach(x=>freq[x]=(freq[x]||0)+1);
- const top=Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,5);
- const time=Math.round(w.length/200);
- let msg="Words: "+w.length+"\nReading time: "+time+" min\n\nTop Keywords:\n";
- top.forEach(e=>msg += e[0]+" : "+e[1]+"\n");
- alert(msg);
+  const clean=editor.innerText.toLowerCase().replace(/[^a-z\s]/g,'');
+  const w=clean.split(/\s+/).filter(Boolean);
+  const freq={}; w.forEach(x=>freq[x]=(freq[x]||0)+1);
+  const top=Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const time=Math.round(w.length/200);
+  let msg="Words: "+w.length+"\nReading time: "+time+" min\n\nTop Keywords:\n";
+  top.forEach(e=>msg += e[0]+" : "+e[1]+"\n");
+  alert(msg);
 }
-
-/* 🔹 Color Commands */
-function textColor(){
- const c=prompt("Enter text color (#hex or name):"); if(c) document.execCommand("foreColor",false,c);
-}
-function highlightColor(){
- const c=prompt("Enter highlight color:");if(c) document.execCommand("hiliteColor",false,c);
-}
-
-/* 🔹 Fullscreen / Toolbar toggle */
-function toggleFullscreen(){
- document.querySelector(".editor-container").classList.toggle("fullscreen");
-}
-function toggleToolbar(){
- const tb=document.getElementById("toolbar");
- tb.style.display = (tb.style.display === "none") ? "flex" : "none";
-}
-
-/* 🔹 Autosave (localstorage) */
-setInterval(()=> localStorage.setItem("editorContent",editor.innerHTML),3000);
-window.onload = ()=>{ const data=localStorage.getItem("editorContent"); if(data) editor.innerHTML=data; };
 </script>
 </body>
 </html>
