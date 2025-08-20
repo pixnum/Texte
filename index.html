@@ -1,48 +1,62 @@
-<!-- Author: Manik Roy -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Texte - Text Editor</title>
 <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/25/25423.png" type="image/png"/>
 <style>
-/* Global */
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:#f0f0f3;color:#333;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:20px;transition:background .3s,color .3s;}
+:root{ --bg:#f0f0f3; }
+body{
+  font-family:'Segoe UI',Tahoma,Arial,sans-serif;
+  background:var(--bg); color:#333;
+  display:flex;flex-direction:column;align-items:center;
+  min-height:100vh;padding:20px;
+  transition:background .3s,color .3s;
+}
 body.dark{background:#1c1c1e;color:#f0f0f0;}
 h1{margin-bottom:20px;text-align:center;}
 footer{margin-top:15px;text-align:center;font-size:12px;color:#888;}
 
-/* Container */
-.editor-container{width:100%;max-width:900px;background:#e0e0e0;border-radius:20px;box-shadow:9px 9px 16px #bebebe,-9px -9px 16px #ffffff;padding:15px;display:flex;flex-direction:column;}
-body.dark .editor-container{background:#2c2c2e;box-shadow:9px 9px 16px #1a1a1c,-9px -9px 16px #404044;}
+.editor-container{
+  width:100%;max-width:900px;background:#e0e0e0;border-radius:20px;
+  box-shadow:9px 9px 16px #bebebe,-9px -9px 16px #ffffff;
+  padding:15px;display:flex;flex-direction:column;
+}
+body.dark .editor-container{
+  background:#2c2c2e;box-shadow:9px 9px 16px #1a1a1c,-9px -9px 16px #404044;
+}
 
-/* Toolbar */
 .toolbar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;}
-.toolbar button,.toolbar select{padding:8px 12px;border:none;border-radius:10px;background:#f0f0f3;box-shadow:4px 4px 6px #bebebe,-4px -4px 6px #ffffff;font-size:14px;cursor:pointer;transition:.2s;}
+.toolbar button,.toolbar select{
+  padding:8px 12px;border:none;border-radius:10px;background:#f0f0f3;
+  box-shadow:4px 4px 6px #bebebe,-4px -4px 6px #ffffff;
+  font-size:14px;cursor:pointer;transition:.2s;
+}
 .toolbar button:hover,.toolbar select:hover{transform:translateY(-2px);}
-body.dark .toolbar button,body.dark .toolbar select{background:#2c2c2e;box-shadow:4px 4px 6px #1a1a1c,-4px -4px 6px #404044;color:#f0f0f0;}
+body.dark .toolbar button,body.dark .toolbar select{
+  background:#2c2c2e;box-shadow:4px 4px 6px #1a1a1c,-4px -4px 6px #404044;color:#f0f0f0;
+}
 
-/* Editor */
-#editor{min-height:400px;background:#f0f0f3;border-radius:15px;padding:15px;overflow-y:auto;outline:none;box-shadow:inset 4px 4px 6px #bebebe,inset -4px -4px 6px #ffffff;}
-body.dark #editor{background:#2c2c2e;box-shadow:inset 4px 4px 6px #1a1a1c,inset -4px -4px 6px #404044;color:#f0f0f0;}
+#editor{
+  min-height:400px;border-radius:15px;padding:15px;overflow-y:auto;outline:none;
+  background:#f0f0f3;
+  box-shadow:inset 4px 4px 6px #bebebe,inset -4px -4px 6px #ffffff;
+}
+body.dark #editor{
+  background:#2c2c2e;box-shadow:inset 4px 4px 6px #1a1a1c,inset -4px -4px 6px #404044;
+}
 #editor img{display:block;margin:10px 0;border-radius:8px;max-width:100%;height:auto;}
 #editor img.resizable{resize:both;overflow:auto;}
-
-/* Highlight */
 mark.highlight{background:yellow;color:black;border-radius:3px;}
-
-@media(max-width:600px){
- .toolbar{flex-direction:column;}
- .toolbar button,.toolbar select{width:100%;}
-}
+.fullscreen{position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;margin:0;border-radius:0!important}
+@media(max-width:600px){.toolbar{flex-direction:column}.toolbar button,.toolbar select{width:100%;}}
 </style>
 </head>
 <body>
 <h1>Texte</h1>
 <div class="editor-container">
-  <div class="toolbar">
+  <div class="toolbar" id="toolbar">
     <button onclick="format('bold')"><b>B</b></button>
     <button onclick="format('italic')"><i>I</i></button>
     <button onclick="format('underline')"><u>U</u></button>
@@ -52,7 +66,6 @@ mark.highlight{background:yellow;color:black;border-radius:3px;}
     <button onclick="format('justifyFull')">Justify</button>
     <button onclick="format('insertUnorderedList')">• List</button>
     <button onclick="format('insertOrderedList')">1. List</button>
-
     <select onchange="setFontSize(this.value)">
       <option value="">Font Size</option>
       <option value="10px">10px</option>
@@ -63,43 +76,22 @@ mark.highlight{background:yellow;color:black;border-radius:3px;}
       <option value="32px">32px</option>
       <option value="48px">48px</option>
     </select>
-
     <select id="language" onchange="setLanguage(this.value)">
-      <!-- ✅ 22 Indian official languages -->
       <option value="en">English</option>
-      <option value="hi">Hindi</option><option value="bn">Bengali</option>
-      <option value="te">Telugu</option><option value="mr">Marathi</option>
-      <option value="ta">Tamil</option><option value="ur">Urdu</option>
-      <option value="gu">Gujarati</option><option value="kn">Kannada</option>
-      <option value="ml">Malayalam</option><option value="or">Odia</option>
-      <option value="pa">Punjabi</option><option value="as">Assamese</option>
-      <option value="ma">Maithili</option><option value="sd">Sindhi</option>
-      <option value="ne">Nepali</option><option value="si">Sinhala</option>
-      <option value="bo">Bodo</option><option value="ka">Konkani</option>
+      <option value="hi">Hindi</option><option value="bn">Bengali</option><option value="te">Telugu</option>
+      <option value="mr">Marathi</option><option value="ta">Tamil</option><option value="ur">Urdu</option>
+      <option value="gu">Gujarati</option><option value="kn">Kannada</option><option value="ml">Malayalam</option>
+      <option value="or">Odia</option><option value="pa">Punjabi</option><option value="as">Assamese</option>
+      <option value="ma">Maithili</option><option value="sd">Sindhi</option><option value="ne">Nepali</option>
+      <option value="si">Sinhala</option><option value="bo">Bodo</option><option value="ka">Konkani</option>
       <option value="sa">Sanskrit</option><option value="ks">Kashmiri</option>
-      <!-- ✅ 22 world languages (unique, alphabetically) -->
-      <option value="ar-eg">Arabic (Egyptian)</option>
-      <option value="my">Burmese</option>
-      <option value="en-uk">English (UK)</option>
-      <option value="fr">French</option>
-      <option value="de">German</option>
-      <option value="ha">Hausa</option>
-      <option value="it">Italian</option>
-      <option value="ja">Japanese</option>
-      <option value="jv">Javanese</option>
-      <option value="ko">Korean</option>
-      <option value="ms">Malay</option>
-      <option value="zh">Mandarin Chinese</option>
-      <option value="fa">Persian (Farsi)</option>
-      <option value="pt">Portuguese</option>
-      <option value="ru">Russian</option>
-      <option value="es">Spanish</option>
-      <option value="sw">Swahili</option>
-      <option value="th">Thai</option>
-      <option value="tr">Turkish</option>
-      <option value="vi">Vietnamese</option>
-      <option value="wuu">Wu Chinese</option>
-      <option value="yo">Yoruba</option>
+      <option value="ar-eg">Arabic (Egyptian)</option><option value="my">Burmese</option><option value="en-uk">English (UK)</option>
+      <option value="fr">French</option><option value="de">German</option><option value="ha">Hausa</option>
+      <option value="it">Italian</option><option value="ja">Japanese</option><option value="jv">Javanese</option>
+      <option value="ko">Korean</option><option value="ms">Malay</option><option value="zh">Mandarin Chinese</option>
+      <option value="fa">Persian (Farsi)</option><option value="pt">Portuguese</option><option value="ru">Russian</option>
+      <option value="es">Spanish</option><option value="sw">Swahili</option><option value="th">Thai</option>
+      <option value="tr">Turkish</option><option value="vi">Vietnamese</option><option value="wuu">Wu Chinese</option><option value="yo">Yoruba</option>
     </select>
 
     <button onclick="toggleDarkMode()">🌓 Dark Mode</button>
@@ -114,141 +106,192 @@ mark.highlight{background:yellow;color:black;border-radius:3px;}
     <button onclick="selectAllEditor()">Select All</button>
     <button onclick="findReplaceEditor()">Find & Replace</button>
     <button onclick="checkReadability()">Check Readability</button>
+    <button onclick="insertTable()">Insert Table</button>
+    <button onclick="format('superscript')">Sup</button>
+    <button onclick="format('subscript')">Sub</button>
+    <button onclick="textColor()">Text Color</button>
+    <button onclick="highlightColor()">Highlight</button>
+    <button onclick="toggleFullscreen()">Full-Screen</button>
+    <button onclick="toggleToolbar()">Hide/Show Toolbar</button>
+    <button onclick="generateSummary()">Summary</button>
+    <button onclick="showWordStats()">Word Stats</button>
+    <select onchange="changeTheme(this.value)">
+      <option value="">Theme</option>
+      <option value="light">Light</option>
+      <option value="sepia">Sepia</option>
+      <option value="ocean">Ocean</option>
+      <option value="classic">Classic</option>
+    </select>
   </div>
-
   <div id="editor" contenteditable="true" spellcheck="true"></div>
   <div id="readabilityResult" style="margin-top:10px;"></div>
 </div>
-<footer>© Texte 2025</footer>
+<footer>© Manik Roy 2025</footer>
 
 <script>
-/* Basic Formatting */
-function format(c,v=null){document.execCommand(c,false,v);}
-function toggleDarkMode(){document.body.classList.toggle('dark');}
-function setLanguage(v){document.getElementById('editor').lang=v;}
-
-/* Font Size (pixel) */
+// 🔹 Basic execCommand formatting
+function format(cmd,val=null){ document.execCommand(cmd,false,val); }
 function setFontSize(size){
- const sel=window.getSelection();
- if(!sel.rangeCount) return;
- const range=sel.getRangeAt(0);
- if(range.collapsed) return;
- const span=document.createElement('span');
- span.style.fontSize=size;
- span.appendChild(range.extractContents());
- range.insertNode(span);
+  const sel=window.getSelection();
+  if(!sel.rangeCount) return;
+  const r=sel.getRangeAt(0);
+  if(r.collapsed) return;
+  const span=document.createElement('span');
+  span.style.fontSize=size;
+  span.appendChild(r.extractContents());
+  r.insertNode(span);
+}
+function setLanguage(v){ document.getElementById('editor').lang=v; }
+
+/* 🔹 Dark Mode (fixed) */
+function toggleDarkMode(){
+  // reset custom theme bg
+  document.documentElement.style.setProperty("--bg", "#f0f0f3");
+  // toggle class
+  document.body.classList.toggle("dark");
 }
 
-/* Image Upload */
-function insertImage(){
- const input=document.createElement('input');
- input.type='file'; input.accept='image/*';
- input.onchange=e=>{
-   const file=e.target.files[0];
-   if(!file) return;
-   const rd=new FileReader();
-   rd.onload=evt=>{
-     const img=document.createElement('img');
-     img.src=evt.target.result;
-     img.classList.add('resizable');
-     const r=window.getSelection().getRangeAt(0);
-     r.insertNode(img); r.collapse(false);
-   };
-   rd.readAsDataURL(file);
- };
- input.click();
+/* 🔹 Theme Selector (dark removed) */
+function changeTheme(val){
+  document.body.classList.remove("dark");
+  const root=document.documentElement;
+  if(val==="sepia")     root.style.setProperty("--bg","#f5e8d1");
+  else if(val==="ocean")root.style.setProperty("--bg","#d8eef8");
+  else if(val==="classic")root.style.setProperty("--bg","#ece8e0");
+  else                   root.style.setProperty("--bg","#f0f0f3");
+  editor.style.background=root.style.getPropertyValue("--bg");
 }
 
-/* Drag & Drop */
-const editor=document.getElementById('editor');
-editor.addEventListener('dragover',e=>{e.preventDefault();editor.style.border="2px dashed #888";});
-editor.addEventListener('dragleave',e=>{e.preventDefault();editor.style.border="none";});
-editor.addEventListener('drop',e=>{
- e.preventDefault();editor.style.border="none";
- [...e.dataTransfer.files].forEach(file=>{
-  if(file.type.startsWith('image/')){
-   const rd=new FileReader();
-   rd.onload=evt=>{
-     const img=document.createElement('img');
-     img.src=evt.target.result;
-     img.classList.add('resizable');
-     const r=window.getSelection().getRangeAt(0);
-     r.insertNode(img);
-   };
-   rd.readAsDataURL(file);
- }});
-});
-
-/* Save TXT/DOCX/PDF */
-function saveFile(t){
- if(t==='txt'){
-  let b=new Blob([editor.innerText],{type:'text/plain'});
-  let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='document.txt'; a.click();
- }else{
-  let html="<html><body>"+editor.innerHTML+"</body></html>";
-  let b=new Blob([html],{type:'application/msword'});
-  let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='document.docx'; a.click();
+/* 🔹 Save / Print / Clipboard */
+function saveFile(type){
+ const ed=document.getElementById('editor');
+ if(type==='txt'){
+   let b=new Blob([ed.innerText],{type:'text/plain'});
+   let a=document.createElement('a');a.href=URL.createObjectURL(b); a.download="document.txt"; a.click();
+ } else {
+   let html="<html><body>"+ed.innerHTML+"</body></html>";
+   let b=new Blob([html],{type:'application/msword'});
+   let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download="document.docx"; a.click();
  }
 }
 function savePDFPrint(){
- const w=window.open('');
- w.document.write("<html><body>"+editor.innerHTML+"</body></html>");
- w.document.close(); w.focus(); w.print(); w.close();
+ let w=window.open('','_blank');w.document.write("<html><body>"+editor.innerHTML+"</body></html>");w.document.close();w.focus();w.print();w.close();
 }
+function copyToClipboard(){navigator.clipboard.writeText(editor.innerText).then(()=>alert("Copied"));}
 
-/* Basic Tools */
+/* 🔹 Insert Image / Tables / Drop Images */
+function insertImage(){
+ const input=document.createElement('input');
+ input.type='file';input.accept='image/*';
+ input.onchange=e=>{
+ const f=e.target.files[0];
+ if(!f) return;
+ const r=new FileReader();
+ r.onload=ev=>{
+  const img=document.createElement('img');
+  img.src=ev.target.result;img.classList.add("resizable");
+  const range=window.getSelection().getRangeAt(0);range.insertNode(img);
+ };
+ r.readAsDataURL(f);
+ };
+ input.click();
+}
+function insertTable(){
+  const t=document.createElement("table");t.border="1";t.style.width="100%";
+  for(let i=0;i<2;i++){ let row=t.insertRow(); for(let j=0;j<2;j++) row.insertCell().innerText=""; }
+  let r=window.getSelection().getRangeAt(0);r.insertNode(t);
+}
+editor.addEventListener("dragover",e=>{e.preventDefault();});
+editor.addEventListener("drop",e=>{
+ e.preventDefault();
+ [...e.dataTransfer.files].forEach(f=>{
+  if(f.type.startsWith("image/")){
+    const rd=new FileReader();
+    rd.onload=ev=>{
+       const img=document.createElement("img");
+       img.src=ev.target.result;img.classList.add("resizable");
+       const r=window.getSelection().getRangeAt(0);r.insertNode(img);
+    };
+    rd.readAsDataURL(f);
+ }});
+});
+
+/* 🔹 Misc Utilities  */
 function undoEditor(){document.execCommand('undo');}
 function redoEditor(){document.execCommand('redo');}
 function clearEditor(){if(confirm("Clear all content?")) editor.innerHTML='';}
-function copyToClipboard(){navigator.clipboard.writeText(editor.innerText).then(()=>alert("Copied to clipboard"));}
+function selectAllEditor(){let r=document.createRange();r.selectNodeContents(editor);let s=window.getSelection();s.removeAllRanges();s.addRange(r);}
 
-/* Select All */
-function selectAllEditor(){
- const r=document.createRange(); r.selectNodeContents(editor);
- const s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
-}
-
-/* Find & Replace */
+/* 🔹 Find / Replace  */
 function findReplaceEditor(){
- const find=prompt("Find:"); if(!find) return;
- const rep=prompt("Replace with:"); if(rep===null) return;
+ const f=prompt("Find:");if(!f) return;
+ const rep=prompt("Replace with:");if(rep===null) return;
  editor.innerHTML=editor.innerHTML.replace(/<mark class="highlight">(.*?)<\/mark>/g,'$1');
- const rx=new RegExp(find,'gi');
- editor.innerHTML=editor.innerHTML.replace(rx,m=>`<mark class="highlight">${rep}</mark>`);
- alert(`Replaced all "${find}" with "${rep}"`);
+ const rg=new RegExp(f,'gi');
+ editor.innerHTML=editor.innerHTML.replace(rg,m=>`<mark class="highlight">${rep}</mark>`);
+ alert(`Replaced "${f}"`);
 }
 
-/* Readability + Word Count */
+/* 🔹 Readability + Words */
 function checkReadability(){
  const text=editor.innerText.trim();
- const result=document.getElementById('readabilityResult');
- if(!text){ result.innerText=""; return; }
+ if(!text){document.getElementById("readabilityResult").innerText="";return;}
  const words=text.split(/\s+/).filter(w=>/[a-z]/i.test(w));
  const sentences=text.split(/[.!?]+/).filter(Boolean).length||1;
- const syll=words.reduce((s,w)=>s+countSyllables(w),0);
  const wc=words.length;
+ const syll=words.reduce((s,w)=>s+countSyllables(w),0);
  const ASL=wc/sentences;
  const ASW=syll/wc;
  const score=206.835-(1.015*ASL)-(84.6*ASW);
- let desc="";
- if(score>=90)desc="Very Easy";
- else if(score>=80)desc="Easy";
- else if(score>=70)desc="Fairly Easy";
- else if(score>=60)desc="Standard";
- else if(score>=50)desc="Fairly Difficult";
- else if(score>=30)desc="Difficult";
- else desc="Very Difficult";
- result.innerText = `Readability: ${score.toFixed(1)} – ${desc} | Words: ${wc}`;
+ let desc=""; if(score>=90)desc="Very Easy"; else if(score>=80)desc="Easy"; else if(score>=70)desc="Fairly Easy";else if(score>=60)desc="Standard";else if(score>=50)desc="Fairly Difficult";else if(score>=30)desc="Difficult";else desc="Very Difficult";
+ document.getElementById("readabilityResult").innerText=`Readability: ${score.toFixed(1)} – ${desc} | Words: ${wc}`;
+}
+function countSyllables(w){
+  w=w.toLowerCase();
+  if(w.length<=3) return 1;
+  w=w.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,'').replace(/^y/,'');
+  const m=w.match(/[aeiouy]{1,2}/g);return m?m.length:1;
 }
 
-/* Syllable Counter */
-function countSyllables(word){
- word=word.toLowerCase();
- if(word.length<=3) return 1;
- word=word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,'').replace(/^y/,'');
- const m=word.match(/[aeiouy]{1,2}/g);
- return m?m.length:1;
+/* 🔹 Summary */
+function generateSummary(){
+ const p=editor.innerText.trim().split(/\n+/);
+ const s=p.map(pa=>pa.split(/[.!?]/)[0]).join(". ")+"...";
+ alert("Summary:\n\n"+s);
 }
+
+/* 🔹 Word Stats + reading time */
+function showWordStats(){
+ const clean=editor.innerText.toLowerCase().replace(/[^a-z\s]/g,'');
+ const w=clean.split(/\s+/).filter(Boolean);
+ const freq={}; w.forEach(x=>freq[x]=(freq[x]||0)+1);
+ const top=Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,5);
+ const time=Math.round(w.length/200);
+ let msg="Words: "+w.length+"\nReading time: "+time+" min\n\nTop Keywords:\n";
+ top.forEach(e=>msg += e[0]+" : "+e[1]+"\n");
+ alert(msg);
+}
+
+/* 🔹 Color Commands */
+function textColor(){
+ const c=prompt("Enter text color (#hex or name):"); if(c) document.execCommand("foreColor",false,c);
+}
+function highlightColor(){
+ const c=prompt("Enter highlight color:");if(c) document.execCommand("hiliteColor",false,c);
+}
+
+/* 🔹 Fullscreen / Toolbar toggle */
+function toggleFullscreen(){
+ document.querySelector(".editor-container").classList.toggle("fullscreen");
+}
+function toggleToolbar(){
+ const tb=document.getElementById("toolbar");
+ tb.style.display = (tb.style.display === "none") ? "flex" : "none";
+}
+
+/* 🔹 Autosave (localstorage) */
+setInterval(()=> localStorage.setItem("editorContent",editor.innerHTML),3000);
+window.onload = ()=>{ const data=localStorage.getItem("editorContent"); if(data) editor.innerHTML=data; };
 </script>
 </body>
 </html>
